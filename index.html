@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="manifest.json">
+    <title>Calculadora de Retención</title>
+</head>
+<body style="font-family: Arial, sans-serif; text-align: center; margin-top: 50px;">
+    <h2>Calculadora de Retención</h2>
+    <label for="monto">Monto total de la factura (con IVA):</label><br>
+    <input type="number" id="monto" placeholder="Ej: 1200" /><br><br>
+    <button onclick="calcularRetencion()">Calcular Retención</button>
+    <p id="resultado" style="margin-top: 20px; font-size: 18px; font-weight: bold; text-align: center; white-space: pre-line;"></p>
+    <script src="sw.js"></script>
+    <script>
+        function calcularRetencion() {
+            const monto = parseFloat(document.getElementById("monto").value);
+            if (isNaN(monto)) {
+                document.getElementById("resultado").innerText = "Por favor, ingresa un monto válido.";
+                return;
+            }
+            const baseImponible = monto / 1.16;
+            const iva = baseImponible * 0.16;
+            const retencion = iva * 0.75;
+            const montoPagar = monto - retencion;
+
+            document.getElementById("resultado").innerHTML = 
+                `Monto total de IVA: Bs ${iva.toFixed(2)}<br>` +
+                `Monto a retener (75% del IVA): Bs ${retencion.toFixed(2)}<br>` +
+                `Monto a pagar: Bs ${montoPagar.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>
